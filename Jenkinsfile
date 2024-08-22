@@ -4,28 +4,28 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Example: Use Maven to build in jenkins
+                // Example: Use Maven to build
                 sh 'mvn clean install'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running Unit and Integration Tests...'
-                // Example: Use JUnit for testing hi
+                // Example: Use JUnit for testing
                 sh 'mvn test'
             }
         }
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing Code...'
-                // Example: Use SonarQube for code analysis hi
+                // Example: Use SonarQube for code analysis
                 sh 'sonar-scanner'
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing Security Scan...'
-                // Example: Use OWASP Dependency-Check hi
+                // Example: Use OWASP Dependency-Check
                 sh 'dependency-check.sh'
             }
         }
@@ -56,16 +56,21 @@ pipeline {
             echo 'Pipeline finished'
         }
         success {
-            mail to: 'godofevergreen@gmail.com',
-                 subject: "SUCCESS: Jenkins Pipeline",
-                 body: "The Jenkins pipeline completed successfully.",
-                 attachLog: true
+            emailext (
+                subject: "SUCCESS: Jenkins Pipeline",
+                body: "The Jenkins pipeline completed successfully.",
+                to: 'godofevergreen@gmail.com',
+                attachLog: true
+            )
         }
         failure {
-            mail to: 'godofevergreen@gmail.com',
-                 subject: "FAILURE: Jenkins Pipeline",
-                 body: "The Jenkins pipeline failed. Please check the logs.",
-                 attachLog: true
+            emailext (
+                subject: "FAILURE: Jenkins Pipeline",
+                body: "The Jenkins pipeline failed. Please check the logs.",
+                to: 'godofevergreen@gmail.com',
+                attachLog: true
+            )
         }
     }
 }
+
