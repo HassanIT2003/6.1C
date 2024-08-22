@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Stage 1: Build - Compiling and packaging the code using Maven.'
-                echo 'Tool: Maven - Maven is used for automating the build process in Java projects.'
+                echo 'Tool: Maven - A build automation tool used for compiling and packaging Java code.'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 echo 'Stage 3: Code Analysis - Analyzing the code quality using SonarQube.'
-                echo 'Tool: SonarQube - SonarQube performs static code analysis to detect bugs, code smells, and security vulnerabilities.'
+                echo 'Tool: SonarQube - A static code analysis tool that detects bugs, code smells, and security vulnerabilities.'
             }
         }
 
@@ -52,17 +52,28 @@ pipeline {
         }
     }
 
-   post {
-    always {
-        emailext (
-            subject: "Jenkins Pipeline Notification",
-            body: "The Jenkins pipeline has completed.",
-            to: 'godofevergreen@gmail.com',
-            attachLog: true
-        )
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+        success {
+            emailext (
+                subject: "SUCCESS: Jenkins Pipeline",
+                body: "The Jenkins pipeline completed successfully.",
+                to: 'godofevergreen@gmail.com',
+                attachLog: true
+            )
+        }
+        failure {
+            emailext (
+                subject: "FAILURE: Jenkins Pipeline",
+                body: "The Jenkins pipeline failed. Please check the logs.",
+                to: 'godofevergreen@gmail.com',
+                attachLog: true
+            )
+        }
     }
 }
 
-}
 
 
