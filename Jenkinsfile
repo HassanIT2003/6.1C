@@ -4,50 +4,46 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Example: Use Maven to build
-                sh 'mvn clean install'
+                bat 'mvn clean install'  // Replace 'sh' with 'bat' for Windows
             }
         }
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running Unit and Integration Tests...'
-                // Example: Use JUnit for testing
-                sh 'mvn test'
+                bat 'mvn test'  // Replace 'sh' with 'bat' for Windows
             }
         }
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing Code...'
-                // Example: Use SonarQube for code analysis
-                sh 'sonar-scanner'
+                bat 'sonar-scanner'  // Replace 'sh' with 'bat' for Windows
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing Security Scan...'
-                // Example: Use OWASP Dependency-Check
-                sh 'dependency-check.sh'
+                bat 'dependency-check.bat'  // Example: Replace 'sh' with 'bat' for Windows
             }
         }
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to Staging...'
-                // Example: Deploy to AWS EC2
-                sh 'scp target/*.jar user@staging-server:/path/to/deploy'
+                // Example: Use Windows-compatible deployment command
+                bat 'scp target\\*.jar user@staging-server:/path/to/deploy'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running Integration Tests on Staging...'
-                // Example: Run tests on staging server
-                sh 'ssh user@staging-server "cd /path/to/app && ./run-tests.sh"'
+                // Example: Use Windows-compatible command
+                bat 'ssh user@staging-server "cd /path/to/app && ./run-tests.sh"'
             }
         }
         stage('Deploy to Production') {
             steps {
                 echo 'Deploying to Production...'
-                // Example: Deploy to production server
-                sh 'scp target/*.jar user@production-server:/path/to/deploy'
+                // Example: Use Windows-compatible deployment command
+                bat 'scp target\\*.jar user@production-server:/path/to/deploy'
             }
         }
     }
