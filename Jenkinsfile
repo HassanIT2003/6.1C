@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    // Define environment variables in jenkins
+    // Define environment variables in jenkin
     environment {
         TESTING_ENVIRONMENT = "Test"
         PRODUCTION_ENVIRONMENT = "Production"
