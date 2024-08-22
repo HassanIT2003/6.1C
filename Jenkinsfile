@@ -11,21 +11,21 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running Unit and Integration Tests...'
-                // Example: Use JUnit for testing
+                // Example: Use JUnit for testing hi
                 sh 'mvn test'
             }
         }
         stage('Code Analysis') {
             steps {
                 echo 'Analyzing Code...'
-                // Example: Use SonarQube for code analysis
+                // Example: Use SonarQube for code analysis hi
                 sh 'sonar-scanner'
             }
         }
         stage('Security Scan') {
             steps {
                 echo 'Performing Security Scan...'
-                // Example: Use OWASP Dependency-Check
+                // Example: Use OWASP Dependency-Check hi
                 sh 'dependency-check.sh'
             }
         }
