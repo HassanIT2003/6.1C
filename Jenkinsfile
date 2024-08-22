@@ -1,55 +1,60 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
-                bat 'mvn clean install'  // Replace 'sh' with 'bat' for Windows
+                echo 'Stage 1: Build - Compiling and packaging the code using Maven.'
+                echo 'Tool: Maven - Maven is used for automating the build process in Java projects.'
             }
         }
+
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running Unit and Integration Tests...'
-                bat 'mvn test'  // Replace 'sh' with 'bat' for Windows
+                echo 'Stage 2: Unit and Integration Tests - Running unit tests with JUnit and integration tests.'
+                echo 'Tools: JUnit - A framework for writing and running unit tests in Java; Selenium - For integration testing.'
             }
         }
+
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing Code...'
-                bat 'sonar-scanner'  // Replace 'sh' with 'bat' for Windows
+                echo 'Stage 3: Code Analysis - Analyzing the code quality using SonarQube.'
+                echo 'Tool: SonarQube - SonarQube performs static code analysis to detect bugs, code smells, and security vulnerabilities.'
             }
         }
+
         stage('Security Scan') {
             steps {
-                echo 'Performing Security Scan...'
-                bat 'dependency-check.bat'  // Example: Replace 'sh' with 'bat' for Windows
+                echo 'Stage 4: Security Scan - Performing a security scan using OWASP Dependency-Check.'
+                echo 'Tool: OWASP Dependency-Check - Identifies vulnerabilities in project dependencies.'
             }
         }
+
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying to Staging...'
-                // Example: Use Windows-compatible deployment command
-                bat 'scp target\\*.jar user@staging-server:/path/to/deploy'
+                echo 'Stage 5: Deploy to Staging - Deploying the application to a staging environment.'
+                echo 'Tool: AWS CLI - Used to manage deployment to AWS EC2 instances.'
             }
         }
+
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running Integration Tests on Staging...'
-                // Example: Use Windows-compatible command
-                bat 'ssh user@staging-server "cd /path/to/app && ./run-tests.sh"'
+                echo 'Stage 6: Integration Tests on Staging - Running integration tests in the staging environment.'
+                echo 'Tool: Postman - Tool for testing APIs, used here for validating the deployed application in staging.'
             }
         }
+
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying to Production...'
-                // Example: Use Windows-compatible deployment command
-                bat 'scp target\\*.jar user@production-server:/path/to/deploy'
+                echo 'Stage 7: Deploy to Production - Deploying the application to the production environment.'
+                echo 'Tool: AWS CLI - Used to deploy the application to a production server in AWS.'
             }
         }
     }
+
     post {
         always {
-            echo 'Pipeline finished'
+            echo 'Pipeline completed.'
         }
         success {
             emailext (
@@ -69,4 +74,5 @@ pipeline {
         }
     }
 }
+
 
