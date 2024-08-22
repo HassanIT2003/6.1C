@@ -1,111 +1,71 @@
 pipeline {
     agent any
-
-    // Define environment variables
-    environment {
-        TESTING_ENVIRONMENT = "Test"
-        PRODUCTION_ENVIRONMENT = "Hassan Noonari"
-    }
-
     stages {
         stage('Build') {
             steps {
-                script {
-                    echo "Using Maven for automated builds"
-                    echo "Using a build automation tool to compile and package the code"
-                }
+                echo 'Building...'
+                // Example: Use Maven to build
+                sh 'mvn clean install'
             }
         }
-
         stage('Unit and Integration Tests') {
             steps {
-                script {
-                    echo "Using JUnit for automated unit tests"
-                    echo "Running unit tests"
-                    echo "Using TestNG for integration tests"  
-                    echo "Running integration tests"
-                }
-            }
-            post {
-                success {
-                    emailext(
-                        to: "godofevergreen@gmail.com",
-                        subject: "Jenkins Pipeline: Unit and Integration Tests - Successful",
-                        body: "All the tests passed successfully :)"
-                    )
-                }
-                failure {
-                    emailext(
-                        to: "godofevergreen@gmail.com",
-                        subject: "Jenkins Pipeline: Unit and Integration Tests - Failed",
-                        body: "The Unit and Integration Tests stage failed. Please check the Jenkins logs for more details."
-                    )
-                }
+                echo 'Running Unit and Integration Tests...'
+                // Example: Use JUnit for testing
+                sh 'mvn test'
             }
         }
-
         stage('Code Analysis') {
             steps {
-                script {
-                    echo "Using SonarQube for code quality checks"
-                    echo "Checking the quality of the code"
-                }
+                echo 'Analyzing Code...'
+                // Example: Use SonarQube for code analysis
+                sh 'sonar-scanner'
             }
         }
-
         stage('Security Scan') {
             steps {
-                script {
-                    echo "Using a security scanning tool"
-                    echo "Performing security scan on the application"
-                }
-            }
-            post {
-                success {
-                    emailext(
-                        to: "godofevergreen@gmail.com",
-                        subject: "Jenkins Pipeline: Security Scan - Successful",
-                        body: "The security scan completed successfully.",
-                        attachLog: true
-                    )
-                }
-                failure {
-                    emailext(
-                        to: "godofevergreen@gmail.com",
-                        subject: "Jenkins Pipeline: Security Scan - Failed",
-                        body: "The security scan failed. Please check the Jenkins logs for more details.",
-                        attachLog: true
-                    )
-                }
+                echo 'Performing Security Scan...'
+                // Example: Use OWASP Dependency-Check
+                sh 'dependency-check.sh'
             }
         }
-
         stage('Deploy to Staging') {
             steps {
-                script {
-                    echo "Using AWS CodeDeploy for deployment"
-                    echo "Deploying the application to the testing environment: ${env.TESTING_ENVIRONMENT}"
-                }
+                echo 'Deploying to Staging...'
+                // Example: Deploy to AWS EC2
+                sh 'scp target/*.jar user@staging-server:/path/to/deploy'
             }
         }
-
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    echo "Waiting for manual approval..."
-                    sleep(time: 10, unit: 'SECONDS')  
-                }
+                echo 'Running Integration Tests on Staging...'
+                // Example: Run tests on staging server
+                sh 'ssh user@staging-server "cd /path/to/app && ./run-tests.sh"'
             }
         }
-
         stage('Deploy to Production') {
             steps {
-                script {
-                    echo "Using Kubernetes for production deployment"
-                    echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                }
+                echo 'Deploying to Production...'
+                // Example: Deploy to production server
+                sh 'scp target/*.jar user@production-server:/path/to/deploy'
             }
         }
     }
+    post {
+        always {
+            echo 'Pipeline finished'
+        }
+        success {
+            mail to: 'godofevergreen@gmail.com',
+                 subject: "SUCCESS: Jenkins Pipeline",
+                 body: "The Jenkins pipeline completed successfully.",
+                 attachLog: true
+        }
+        failure {
+            mail to: 'godofevergreen@gmail.com',
+                 subject: "FAILURE: Jenkins Pipeline",
+                 body: "The Jenkins pipeline failed. Please check the logs.",
+                 attachLog: true
+        }
+    }
 }
-
