@@ -52,27 +52,17 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            echo 'Pipeline completed.'
-        }
-        success {
-            emailext (
-                subject: "SUCCESS: Jenkins Pipeline",
-                body: "The Jenkins pipeline completed successfully.",
-                to: 'godofevergreen@gmail.com',
-                attachLog: true
-            )
-        }
-        failure {
-            emailext (
-                subject: "FAILURE: Jenkins Pipeline",
-                body: "The Jenkins pipeline failed. Please check the logs.",
-                to: 'godofevergreen@gmail.com',
-                attachLog: true
-            )
-        }
+   post {
+    always {
+        emailext (
+            subject: "Jenkins Pipeline Notification",
+            body: "The Jenkins pipeline has completed.",
+            to: 'godofevergreen@gmail.com',
+            attachLog: true
+        )
     }
+}
+
 }
 
 
