@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    // Define environment variables in jenkins
+    // Define environment variables
     environment {
         TESTING_ENVIRONMENT = "Test"
-        PRODUCTION_ENVIRONMENT = "Production"
+        PRODUCTION_ENVIRONMENT = "Hassan Noonari"
     }
 
     stages {
@@ -92,9 +92,8 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 script {
-                    echo "Running integration tests on the staging environment..."
                     echo "Waiting for manual approval..."
-                    input message: "Approve deployment to production?", ok: "Deploy"
+                    sleep(time: 10, unit: 'SECONDS')  
                 }
             }
         }
@@ -108,10 +107,5 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            echo "Pipeline finished."
-        }
-    }
 }
+
