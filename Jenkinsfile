@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Example: Use Maven to build
+                // Example: Use Maven to build in jenkins
                 sh 'mvn clean install'
             }
         }
