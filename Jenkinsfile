@@ -1,76 +1,83 @@
 pipeline {
     agent any
 
+    // Define environment variables
+    environment {
+        TESTING_ENVIRONMENT = "stage"
+        PRODUCTION_ENVIRONMENT = "Hassan Noonari"
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo 'Stage 1: Build - Compiling and packaging the code using Maven.'
-                echo 'Tool: Maven - A build automation tool used for compiling and packaging Java code.'
+                script {
+                    echo "Using Maven for automated builds"
+                    echo "Using a build automation tool to compile and package the code"
+                }
             }
         }
 
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Stage 2: Unit and Integration Tests - Running unit tests with JUnit and integration tests.'
-                echo 'Tools: JUnit - A framework for writing and running unit tests in Java; Selenium - For integration testing.'
+                script {
+                    echo "Using JUnit for automated unit tests"
+                    echo "Running unit tests"
+                    echo "Using TestNG for integration tests"  // Replace [Tool Name] with the actual tool name for integration tests
+                    echo "Running integration tests"
+                }
+            }
+            post {
+                success {
+                    emailext(
+                        subject: "Test Stage - Successful",
+                        body: "All tests (unit and integration) passed successfully.",
+                        to: "godofevergreen@gmail.com"
+                    )
+                }
+                failure {
+                    emailext(
+                        subject: "Test Stage - Failed",
+                        body: "One or more tests failed. Please check the logs for more details.",
+                        to: "godofevergreen@gmail.com"
+                    )
+                }
             }
         }
 
         stage('Code Analysis') {
             steps {
-                echo 'Stage 3: Code Analysis - Analyzing the code quality using SonarQube.'
-                echo 'Tool: SonarQube - A static code analysis tool that detects bugs, code smells, and security vulnerabilities.'
+                script {
+                    echo "Using SonarQube for code quality checks"
+                    echo "Checking the quality of the code"
+                }
             }
         }
 
         stage('Security Scan') {
             steps {
-                echo 'Stage 4: Security Scan - Performing a security scan using OWASP Dependency-Check.'
-                echo 'Tool: OWASP Dependency-Check - Identifies vulnerabilities in project dependencies.'
-            }
-        }
-
-        stage('Deploy to Staging') {
-            steps {
-                echo 'Stage 5: Deploy to Staging - Deploying the application to a staging environment.'
-                echo 'Tool: AWS CLI - Used to manage deployment to AWS EC2 instances.'
+                script {
+                    echo "Using AWS CodeDeploy for deployment"
+                    echo "Deploying the application to the testing environment: ${env.TESTING_ENVIRONMENT}"
+                }
             }
         }
 
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Stage 6: Integration Tests on Staging - Running integration tests in the staging environment.'
-                echo 'Tool: Postman - Tool for testing APIs, used here for validating the deployed application in staging.'
+                script {
+                    echo "Waiting for manual approval..."
+                    sleep(time: 10, unit: 'SECONDS')  // Simulate manual approval with a 10-second delay
+                }
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                echo 'Stage 7: Deploy to Production - Deploying the application to the production environment.'
-                echo 'Tool: AWS CLI - Used to deploy the application to a production server in AWS.'
+                script {
+                    echo "Using Kubernetes for production deployment"
+                    echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
+                }
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline completed.'
-        }
-        success {
-            emailext (
-                subject: "SUCCESS: Jenkins Pipeline",
-                body: "The Jenkins pipeline completed successfully.",
-                to: 'godofevergreen@gmail.com',
-                attachLog: true
-            )
-        }
-        failure {
-            emailext (
-                subject: "FAILURE: Jenkins Pipeline",
-                body: "The Jenkins pipeline failed. Please check the logs.",
-                to: 'godofevergreen@gmail.com',
-                attachLog: true
-            )
         }
     }
 }
