@@ -1,86 +1,72 @@
 pipeline {
     agent any
-
-    // Define environment variables in jnekins
-    environment {
-        TESTING_ENVIRONMENT = "stage"
-        PRODUCTION_ENVIRONMENT = "Hassan Noonari"
-    }
-
+    
     stages {
         stage('Build') {
             steps {
-                script {
-                    echo "Using Maven for automated builds"
-                    echo "Using a build automation tool to compile and package the code"
-                }
+                sh 'echo "Building the code"'
+                    // Use a build automation tool like Maven in jenkins 
+                    // Example: sh 'mvn clean 
             }
         }
-
         stage('Unit and Integration Tests') {
             steps {
-                script {
-                    echo "Using JUnit for automated unit tests"
-                    echo "Running unit tests"
-                    echo "Using TestNG for integration tests"  // Replace [Tool Name] with the actual tool name for integration tests
-                    echo "Running integration tests"
-                }
-            }
-            post {
-                success {
-                    emailext(
-                        subject: "Test Stage - Successful",
-                        body: "All tests (unit and integration) passed successfully.",
-                        to: "godofevergreen@gmail.com"
-                    )
-                }
-                failure {
-                    emailext(
-                        subject: "Test Stage - Failed",
-                        body: "One or more tests failed. Please check the logs for more details.",
-                        to: "godofevergreen@gmail.com"
-                    )
-                }
+                sh 'echo "Running unit tests"'
+                // Use test automation tools for unit and integration tests
+                // Example: sh 'npm test'
             }
         }
-
         stage('Code Analysis') {
             steps {
-                script {
-                    echo "Using SonarQube for code quality checks"
-                    echo "Checking the quality of the code"
-                }
+                sh 'echo "Running code analysis"'
+                // Integrate a code analysis tool
+                // Example: sh 'eslint .'
             }
         }
-
         stage('Security Scan') {
             steps {
-                script {
-                    echo "Using AWS CodeDeploy for deployment"
-                    echo "Deploying the application to the testing environment: ${env.TESTING_ENVIRONMENT}"
-                }
+                sh 'echo "Performing security scan"'
+                // Use a security scanning tool
+                // Example: sh 'nmap -p 80 <target>'
             }
         }
-
+        stage('Deploy to Staging') {
+            steps {
+                sh 'echo "Deploying to staging server"'
+                // Deploy to staging server
+                // Example: sh 'ssh user@staging-server "deploy-script.sh"'
+            }
+        }
         stage('Integration Tests on Staging') {
             steps {
-                script {
-                    echo "Waiting for manual approval..."
-                    sleep(time: 10, unit: 'SECONDS')  // Simulate manual approval with a 10-second delay
-                }
+                sh 'echo "Running integration tests on staging"'
+                // Run integration tests on staging
+                // Example: sh 'npm run integration-test'
             }
         }
-
         stage('Deploy to Production') {
             steps {
-                script {
-                    echo "Using Kubernetes for production deployment"
-                    echo "Deploying the code to the production environment: ${env.PRODUCTION_ENVIRONMENT}"
-                }
+                sh 'echo "Deploying to production server"'
+                // Deploy to production server
+                // Example: sh 'ssh user@production-server "deploy-script.sh"'
             }
         }
     }
+    
+    post {
+        failure {
+            emailext subject: "Pipeline Failed",
+                     body: "Pipeline failed. See attached logs for details.",
+                     attachLog: true,
+                     to: "godofevergreen@gmail.com"
+        }
+        success {
+            emailext subject: "Pipeline Succeeded",
+                     body: "Pipeline succeeded. See attached logs for details.",
+                     attachLog: true,
+                     to: "godofevergreen@gmail.com"
+        }
+    }
 }
-
 
 
