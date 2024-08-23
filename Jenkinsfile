@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 bat 'echo "Building the code"'
-                // Use a build automation tool like Maven Hassan
+                // Use a build automation tool like Maven Hassan in Jenkins
                 // Example: bat 'mvn clean install'
             }
         }
