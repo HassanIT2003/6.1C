@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo "Building the code"'
-                    // Use a build automation tool like Maven in jenkins 
+                    // Use a build automation tool like Maven 
                     // Example: sh 'mvn clean 
             }
         }
