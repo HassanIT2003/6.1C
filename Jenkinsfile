@@ -4,51 +4,51 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Building the code"'
-                    // Use a build automation tool like Maven 
-                    // Example: sh 'mvn clean 
+                bat 'echo "Building the code"'
+                // Use a build automation tool like Maven 
+                // Example: bat 'mvn clean install'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                sh 'echo "Running unit tests"'
+                bat 'echo "Running unit tests"'
                 // Use test automation tools for unit and integration tests
-                // Example: sh 'npm test'
+                // Example: bat 'npm test'
             }
         }
         stage('Code Analysis') {
             steps {
-                sh 'echo "Running code analysis"'
+                bat 'echo "Running code analysis"'
                 // Integrate a code analysis tool
-                // Example: sh 'eslint .'
+                // Example: bat 'eslint .'
             }
         }
         stage('Security Scan') {
             steps {
-                sh 'echo "Performing security scan"'
+                bat 'echo "Performing security scan"'
                 // Use a security scanning tool
-                // Example: sh 'nmap -p 80 <target>'
+                // Example: bat 'nmap -p 80 <target>'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                sh 'echo "Deploying to staging server"'
+                bat 'echo "Deploying to staging server"'
                 // Deploy to staging server
-                // Example: sh 'ssh user@staging-server "deploy-script.sh"'
+                // Example: bat 'powershell.exe -Command "ssh user@staging-server \"deploy-script.ps1\""'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                sh 'echo "Running integration tests on staging"'
+                bat 'echo "Running integration tests on staging"'
                 // Run integration tests on staging
-                // Example: sh 'npm run integration-test'
+                // Example: bat 'npm run integration-test'
             }
         }
         stage('Deploy to Production') {
             steps {
-                sh 'echo "Deploying to production server"'
+                bat 'echo "Deploying to production server"'
                 // Deploy to production server
-                // Example: sh 'ssh user@production-server "deploy-script.sh"'
+                // Example: bat 'powershell.exe -Command "ssh user@production-server \"deploy-script.ps1\""'
             }
         }
     }
@@ -68,5 +68,4 @@ pipeline {
         }
     }
 }
-
 
