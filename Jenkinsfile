@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    // Define environment variables
+    // Define environment variables in jnekins
     environment {
         TESTING_ENVIRONMENT = "stage"
         PRODUCTION_ENVIRONMENT = "Hassan Noonari"
